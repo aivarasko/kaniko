@@ -185,6 +185,19 @@
   version = "v3.2.0"
 
 [[projects]]
+  digest = "1:92ebc9c068ab8e3fff03a58694ee33830964f6febd0130069aadce328802de14"
+  name = "github.com/docker/cli"
+  packages = [
+    "cli/config",
+    "cli/config/configfile",
+    "cli/config/credentials",
+    "cli/config/types",
+  ]
+  pruneopts = "NUT"
+  revision = "99c5edceb48d64c1aa5d09b8c9c499d431d98bb9"
+  version = "v19.03.5"
+
+[[projects]]
   branch = "master"
   digest = "1:1ca1988ad760b15a9b6e2eef41dfcf1086aef53283623fca0d151d2f5833579e"
   name = "github.com/docker/distribution"
@@ -197,7 +210,7 @@
   revision = "0dae0957e5fe3156c265d22bef4cba9efbf388e2"
 
 [[projects]]
-  digest = "1:d2471b0cb6ee1ff6689d6e00f778fe70684ebe26e7afbbd2b1cd373d2c4d82ec"
+  digest = "1:f29893914ffc74b67e8d827988b6f81f66d2fc7aaf70cfd98b9f7dbf90b8d4fb"
   name = "github.com/docker/docker"
   packages = [
     "api",
@@ -253,6 +266,7 @@
     "pkg/directory",
     "pkg/filenotify",
     "pkg/fileutils",
+    "pkg/homedir",
     "pkg/idtools",
     "pkg/ioutils",
     "pkg/jsonmessage",
@@ -285,6 +299,17 @@
   ]
   pruneopts = "NUT"
   revision = "71cd53e4a197b303c6ba086bd584ffd67a884281"
+
+[[projects]]
+  digest = "1:9f3f49b4e32d3da2dd6ed07cc568627b53cc80205c0dcf69f4091f027416cb60"
+  name = "github.com/docker/docker-credential-helpers"
+  packages = [
+    "client",
+    "credentials",
+  ]
+  pruneopts = "NUT"
+  revision = "54f0238b6bf101fc3ad3b34114cb5520beb562f5"
+  version = "v0.6.3"
 
 [[projects]]
   digest = "1:2a47f7eb1a2c30428d1ee6808cb66d4deb17e68a3e55d696f03c8068552ba5e8"
@@ -445,12 +470,13 @@
   version = "v0.2.0"
 
 [[projects]]
-  digest = "1:16c8837e951303ef6388132bc875337660a48ea2dedf1c941ca118ea92d2a3d2"
+  digest = "1:ecaece9ecac88365620380965f905cae260f8ab10f0d6119f74831ac59c9365f"
   name = "github.com/google/go-containerregistry"
   packages = [
     "pkg/authn",
     "pkg/authn/k8schain",
     "pkg/internal/retry",
+    "pkg/internal/retry/wait",
     "pkg/logs",
     "pkg/name",
     "pkg/v1",
@@ -458,7 +484,6 @@
     "pkg/v1/empty",
     "pkg/v1/mutate",
     "pkg/v1/partial",
-    "pkg/v1/random",
     "pkg/v1/remote",
     "pkg/v1/remote/transport",
     "pkg/v1/stream",
@@ -467,7 +492,7 @@
     "pkg/v1/v1util",
   ]
   pruneopts = "NUT"
-  revision = "273af77a08b28b49cc2cff2dd8ae50a5094dac74"
+  revision = "f8574ec722f4dd4e2703689ea2ffe10c2021adc9"
 
 [[projects]]
   digest = "1:f4f203acd8b11b8747bdcd91696a01dbc95ccb9e2ca2db6abf81c3a4f5e950ce"

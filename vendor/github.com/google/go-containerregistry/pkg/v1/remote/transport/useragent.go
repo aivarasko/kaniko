@@ -1,4 +1,4 @@
-// Copyright 2018 Google LLC All Rights Reserved.
+// Copyright 2019 Google LLC All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,5 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package random provides a facility for synthesizing pseudo-random images.
-package random
+package transport
+
+import "net/http"
+
+const (
+	transportName = "go-containerregistry"
+)
+
+type useragentTransport struct {
+	// Wrapped by useragentTransport.
+	inner http.RoundTripper
+}
+
+// RoundTrip implements http.RoundTripper
+func (ut *useragentTransport) RoundTrip(in *http.Request) (*http.Response, error) {
+	in.Header.Set("User-Agent", transportName)
+	return ut.inner.RoundTrip(in)
+}

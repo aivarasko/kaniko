@@ -1,4 +1,4 @@
-// Copyright 2018 Google LLC All Rights Reserved.
+// Copyright 2019 Google LLC All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,28 +24,30 @@ import (
 	"github.com/google/go-containerregistry/pkg/v1/remote/transport"
 )
 
-type tags struct {
-	Name string   `json:"name"`
-	Tags []string `json:"tags"`
+type catalog struct {
+	Repos []string `json:"repositories"`
 }
 
-// List calls /tags/list for the given repository, returning the list of tags
-// in the "tags" property.
-func List(repo name.Repository, options ...Option) ([]string, error) {
-	o, err := makeOptions(repo, options...)
-	if err != nil {
-		return nil, err
-	}
-	scopes := []string{repo.Scope(transport.PullScope)}
-	tr, err := transport.New(repo.Registry, o.auth, o.transport, scopes)
+// CatalogPage calls /_catalog, returning the list of repositories on the registry.
+func CatalogPage(target name.Registry, last string, n int, options ...Option) ([]string, error) {
+	o, err := makeOptions(target, options...)
 	if err != nil {
 		return nil, err
 	}
 
+	scopes := []string{target.Scope(transport.PullScope)}
+	tr, err := transport.New(target, o.auth, o.transport, scopes)
+	if err != nil {
+		return nil, err
+	}
+
+	query := fmt.Sprintf("last=%s&n=%d", url.QueryEscape(last), n)
+
 	uri := url.URL{
-		Scheme: repo.Registry.Scheme(),
-		Host:   repo.Registry.RegistryStr(),
-		Path:   fmt.Sprintf("/v2/%s/tags/list", repo.RepositoryStr()),
+		Scheme:   target.Scheme(),
+		Host:     target.RegistryStr(),
+		Path:     "/v2/_catalog",
+		RawQuery: query,
 	}
 
 	client := http.Client{Transport: tr}
@@ -59,10 +61,10 @@ func List(repo name.Repository, options ...Option) ([]string, error) {
 		return nil, err
 	}
 
-	parsed := tags{}
+	var parsed catalog
 	if err := json.NewDecoder(resp.Body).Decode(&parsed); err != nil {
 		return nil, err
 	}
 
-	return parsed.Tags, nil
+	return parsed.Repos, nil
 }
